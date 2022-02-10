@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Assets/Effects/Explosion/explosion1.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Effects/Explosion/explosion2.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Effects/Explosion/explosion3.png" type="Texture" id=3]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "Explosion",
+"speed": 5.0
+} ]
+
+[node name="Explosion" type="AnimatedSprite"]
+frames = SubResource( 1 )
+animation = "Explosion"
+frame = 1
+speed_scale = 3.0
