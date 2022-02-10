@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/red_ship.png-2982d848137f000fba3c0ef0feac5bb2.stex"
+path="res://.import/pngfind.com-explosion-sprite-png-6868161.png-504e2cafca062f4cf8c4700f1740d5e0.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Ships/red_ship.png"
-dest_files=[ "res://.import/red_ship.png-2982d848137f000fba3c0ef0feac5bb2.stex" ]
+source_file="res://Assets/Effects/Explosion/pngfind.com-explosion-sprite-png-6868161.png"
+dest_files=[ "res://.import/pngfind.com-explosion-sprite-png-6868161.png-504e2cafca062f4cf8c4700f1740d5e0.stex" ]
 
 [params]
 
