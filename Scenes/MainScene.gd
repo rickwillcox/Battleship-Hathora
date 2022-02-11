@@ -40,7 +40,7 @@ func send_movement_orders():
 	var rand4 = randi() % 255
 	var pba : PoolByteArray 
 		
-	
+	# Movement
 	if Input.is_action_pressed("Forward"):
 		pba = PoolByteArray ([01, rand1, rand2, rand3, rand4, 02, 01])
 		if Input.is_action_pressed("Right"):
@@ -58,7 +58,12 @@ func send_movement_orders():
 		pba = PoolByteArray ([01, rand1, rand2, rand3, rand4, 02, 00])
 		
 	HathoraConnection.send_message_to_server(pba)
-
+	
+	# Fire Canonball
+	if Input.is_action_pressed("Fire"):
+		pba = PoolByteArray ([02, rand1+1, rand2+1, rand3+1, rand4+1])
+		HathoraConnection.send_message_to_server(pba)
+	
 func update_player_ship():
 	pass
 

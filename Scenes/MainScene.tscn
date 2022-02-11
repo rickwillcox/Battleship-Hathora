@@ -77,8 +77,8 @@ tile_data = PoolIntArray( -1, 0, 0, -65536, 0, 0, -65535, 0, 0, -65534, 0, 0, -6
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 script = ExtResource( 4 )
-state_id = "2ra0tlc5o8mc4"
-app_id = "549cb1583f5e6a32f38919444b7254852d47debd194e4114de12d412959e190f"
+state_id = "1kw2l6lf8vhzb"
+app_id = "2a7643ea6266be71cc56c79aa8eb5048935c09d9ca243995f486263071c4f1ca"
 
 [node name="Gui" type="CanvasLayer" parent="."]
 
