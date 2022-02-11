@@ -1,9 +1,48 @@
 extends Node2D
 
-var hit_count : int = 0
 var reload_timer : float = 5.0
 var big_explosion_counter : int = 0
 var dead : bool = false
+
+# Server Data
+var id : String
+var hit_count : int
+
+func update_ship(data):
+	if data.has("x"):
+		position.x = data.x
+	if data.has("y"):
+		position.x = data.y
+	if data.has("angle"):
+		rotation = data.angle
+	if data.has("hitCount"):
+		position.x = data.x
+	if data.has("x"):
+		var tmp_hc = hit_count
+		hit_count = data.hitCount
+		if tmp_hc < hit_count:
+			_on_hit()
+
+var d : Dictionary = {
+	"ships":
+		[{"player":"kjacjx0qkg",
+		"x":833,
+		"y":330,
+		"angle":0,
+		"hitCount":0},
+		{"player":"nipr9fuiajm",
+		"x":548.9311683901882,
+		"y":612.91837016936,
+		"angle":0.402,
+		"hitCount":0}],
+	"cannonBalls":
+		[{"id" : 1,
+		"x" : 22.5,
+		"y" : 50},
+		{"id" : 2,
+		"x" : 33,
+		"y" : 2}]}  
+
 
 # Nodes
 onready var sprite : Sprite = get_node("Sprite")
@@ -26,9 +65,11 @@ func _ready():
 	# Logic for setting the ships sprite
 	sprite.texture = black_ship
 	animation_player.play("Circle")
+
+
+
 	
 func _on_hit():
-	hit_count += 1
 	play_explosion_animation()
 	if hit_count <= 3:
 		sprite.frame += 1

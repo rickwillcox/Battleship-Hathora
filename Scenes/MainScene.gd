@@ -5,7 +5,13 @@ var cannonballs_array : Array = []
 var game_started : bool = false
 
 # Nodes
-onready var title : Label = get_node("Title")
+onready var gui : CanvasLayer = get_node("Gui")
+onready var title : Label = get_node("Gui/Title")
+onready var create_lobby : TextureButton = get_node("Gui/CreateLobby")
+onready var create_lobby_text : Label = get_node("Gui/CreateLobby/CreateLobbyText")
+onready var join_lobby : TextureButton = get_node("Gui/JoinLobby")
+onready var join_lobby_text : Label = get_node("Gui/JoinLobby/JoinLobbyText")
+onready var join_lobby_state_id : TextEdit = get_node("Gui/JoinLobby/JoinLobbyStateID")
 onready var ships_ysort : YSort = get_node("Ships")
 onready var cannonballs_ysort : YSort = get_node("Cannonballs")
 onready var http_request : HTTPRequest = get_node("HTTPRequest")
@@ -23,34 +29,36 @@ func _physics_process(delta):
 	update_enemy_ships()
 	update_cannonballs()
 
+func process_data_packets(data):
+	print(data)
+	pass
+
 func send_movement_orders():
-	var sending_move_order = false
 	var rand1 = randi() % 255
 	var rand2 = randi() % 255
 	var rand3 = randi() % 255
 	var rand4 = randi() % 255
+	var pba : PoolByteArray 
+		
 	
 	if Input.is_action_pressed("Forward"):
-		var pba = PoolByteArray ([01, rand1, rand2, rand3, rand4, 02, 01])
-		sending_move_order = true
-		HathoraConnection.send_message_to_server(pba)
-		
-	if Input.is_action_pressed("Right"):
-		var pba = PoolByteArray ([01, rand1, rand2, rand3, rand4, 01, 00])
-		sending_move_order = true
-		HathoraConnection.send_message_to_server(pba)
+		pba = PoolByteArray ([01, rand1, rand2, rand3, rand4, 02, 01])
+		if Input.is_action_pressed("Right"):
+			pba = PoolByteArray ([01, rand1, rand2, rand3, rand4, 01, 01])
+		elif Input.is_action_pressed("Left"):
+			pba = PoolByteArray ([01, rand1, rand2, rand3, rand4, 00, 01])
+				
+	elif Input.is_action_pressed("Right"):
+		pba = PoolByteArray ([01, rand1, rand2, rand3, rand4, 01, 00])
 
-	if Input.is_action_pressed("Left"):
-		var pba = PoolByteArray ([01, rand1, rand2, rand3, rand4, 00, 00])
-		sending_move_order = true
-		HathoraConnection.send_message_to_server(pba)
-	
-#	if (!sending_move_order):
-#		var pba = PoolByteArray ([01, rand1, rand2, rand3, rand4, 02, 00])
-#		HathoraConnection.send_message_to_server(pba)
-	
+	elif Input.is_action_pressed("Left"):
+		pba = PoolByteArray ([01, rand1, rand2, rand3, rand4, 00, 00])
 		
-	
+	else:
+		pba = PoolByteArray ([01, rand1, rand2, rand3, rand4, 02, 00])
+		
+	HathoraConnection.send_message_to_server(pba)
+
 func update_player_ship():
 	pass
 
@@ -69,6 +77,7 @@ func start_game():
 
 func join_the_server():
 	HathoraConnection.connect_to_websocket()
+	
 
 
 func spawn_own_ship():
@@ -96,9 +105,20 @@ func spawn_cannonballs():
 
 
 func _on_AnimationPlayer_animation_finished(anim_name):
-	title.queue_free()
+	gui.queue_free()
+	
+func _on_CreateLobby_pressed():
+	HathoraConnection.mode = "create_lobby"
+	title.get_node("AnimationPlayer").play("Fade")
+	yield(get_tree().create_timer(3), "timeout")
+	start_game()
 
 
-func _on_TitleTimer_timeout():
+func _on_JoinLobby_pressed():
+	HathoraConnection.mode = "join_lobby"
 	title.get_node("AnimationPlayer").play("Fade")
 	start_game()
+
+
+func _on_JoinLobbyStateID_text_changed():
+	HathoraConnection.state_id = join_lobby_state_id.text
