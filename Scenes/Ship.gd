@@ -3,16 +3,21 @@ extends Node2D
 var reload_timer : float = 5.0
 var big_explosion_counter : int = 0
 var dead : bool = false
-var new_position : Vector2 = Vector2(0,0)
+var new_position : Vector2 = Vector2(-30, -30)
 var new_rotation : float = 0.0
+
+export var turn_speed : int = 5
+export var move_speed : int = 180
 
 # Server Data
 var id : String
-var hit_count : int
+var hit_count : int = 0
+var hit_count_set : bool = false
 
 func _physics_process(delta):
-	position = position.move_toward(new_position, delta * 100)
-	rotation = lerp_angle(rotation, new_rotation, delta * 5.0)
+	if !dead:
+		position = position.move_toward(new_position, delta * move_speed)
+		rotation = lerp_angle(rotation, new_rotation, delta * turn_speed)
 	
 func update_ship(data):
 	if data.has("x"):
@@ -22,33 +27,15 @@ func update_ship(data):
 	if data.has("angle"):
 		new_rotation = data.angle
 	if data.has("hitCount"):
-		var tmp_hc = hit_count
-		hit_count = data.hitCount
-		if tmp_hc < hit_count:
-			_on_hit()
-
-
-var d : Dictionary = {
-	"ships":
-		[{"player":"kjacjx0qkg",
-		"x":833,
-		"y":330,
-		"angle":0,
-		"hitCount":0},
-		{"player":"nipr9fuiajm",
-		"x":548.9311683901882,
-		"y":612.91837016936,
-		"angle":0.402,
-		"hitCount":0}],
-	"cannonBalls":
-		[{"id" : 1,
-		"x" : 22.5,
-		"y" : 50},
-		{"id" : 2,
-		"x" : 33,
-		"y" : 2}]}  
-
-
+		if !dead:
+			if hit_count_set:
+				var tmp_hc
+				if hit_count <  data.hitCount:
+					hit_count = data.hitCount
+					_on_hit()
+			else:
+				hit_count_set = true 
+				hit_count = data.hitCount
 # Nodes
 onready var sprite : Sprite = get_node("Sprite")
 onready var effect_position : Position2D = get_node("EffectPosition")
@@ -72,13 +59,12 @@ func _ready():
 	animation_player.play("Circle")
 
 
-
-	
 func _on_hit():
 	play_explosion_animation()
-	if hit_count <= 3:
+	if hit_count < 3:
 		sprite.frame += 1
 	else:
+		sprite.frame = 3
 		dead = true
 		big_explosion_timer.start()
 		play_explosion_animation()

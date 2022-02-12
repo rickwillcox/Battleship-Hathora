@@ -1,5 +1,9 @@
 extends Node2D
 
+export var open_in_browser : bool 
+export var copy_state_id : bool
+
+var state_id_str : String = "" 
 var enemy_ships_array : Array = []
 var cannonballs_array : Array = []
 var game_started : bool = false
@@ -34,22 +38,28 @@ func process_data_packets(data):
 	# is this the first packet (state ID)
 	if HathoraConnection.mode == "create_lobby" and first_packet:
 		state_id.text = data
+		if open_in_browser:
+			OS.shell_open("https://ship-battle-json.surge.sh/" + state_id.text)
+		if copy_state_id:
+			OS.set_clipboard(data)
 		first_packet = false
 		return
+	else:
+		state_id.text = state_id_str
 	
 	var dict_data : Dictionary = parse_json(data)
-	
-	print(dict_data)
-	
+		
 	# Is this the first json packet I received?	
 	if just_joined:
 		if dict_data.has("ships"):
 			spawn_own_ship(dict_data.ships)
 			if dict_data.ships.size() > 1:
 				for i in range(dict_data.ships.size() -1):
-					spawn_enemy_ships(dict_data[i].ships)
+					spawn_enemy_ships(dict_data.ships[i])
 		if dict_data.has("cannonBalls"):
-			spawn_cannonballs(dict_data.cannonBalls)
+			if dict_data.cannonBalls.size() > 1:
+				for i in range(dict_data.cannonBalls.size()):
+					spawn_cannonballs(dict_data.cannonBalls[i])
 		just_joined = false
 		return
 	
@@ -100,10 +110,35 @@ func update_ships(ship_data : Array):
 		if !ship_found:
 			spawn_enemy_ships(server_ship)
 	 
-		
-	
+
 func update_cannonballs(cannonball_data : Array):
-	pass
+	var server_cannonballs_removed : Array = []
+	var new_server_cannonballs : Array = []
+	# update existing cannonnballs and add new ones
+	for server_cannonball in cannonball_data:
+		var server_cannonball_found = false
+		for client_cannonball in cannonballs_ysort.get_children():
+			if client_cannonball.id == server_cannonball.id:
+				client_cannonball.update_cannonball(server_cannonball)
+				client_cannonball.found = true
+				server_cannonball_found = true
+				break
+			
+		if !server_cannonball_found:
+			spawn_cannonballs(server_cannonball)
+			# spawn a new cannonball - add them to array
+	
+	# remove non existing cannonballs from client
+#	for client_cannonball in cannonballs_ysort.get_children():
+#		if !client_cannonball.found:
+#			client_cannonball.queue_free()
+#		client_cannonball.found = false
+#
+		
+		 
+	
+
+				
 
 func start_game():
 	join_the_server()
@@ -129,19 +164,21 @@ func spawn_enemy_ships(ship_data : Dictionary):
 	enemy_ship.id = ship_data.player
 	ships_ysort.add_child(enemy_ship)
 
-func spawn_cannonballs(cannonball_data : Array):
-	for cb in cannonballs_array:
-		var cannonball_instance = cannonball.instance()
-		cannonball_instance.position.x = 80
-		cannonball_instance.position.y = 80
-		cannonball_instance.id = 1
-		cannonballs_ysort.add_child(cannonball_instance)
+func spawn_cannonballs(cannonball_data : Dictionary):
+	var cannonball_instance = cannonball.instance()
+	cannonball_instance.position.x = cannonball_data.x
+	cannonball_instance.position.y = cannonball_data.y
+	cannonball_instance.new_position = Vector2(cannonball_data.x, cannonball_data.y)
+	cannonball_instance.id = cannonball_data.id
+	cannonballs_ysort.add_child(cannonball_instance)
 
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	gui.queue_free()
 	
 func _on_CreateLobby_pressed():
+	create_lobby.disabled = true
+	create_lobby.modulate = Color("a49f9f")
 	HathoraConnection.mode = "create_lobby"
 	title.get_node("AnimationPlayer").play("Fade")
 	yield(get_tree().create_timer(3), "timeout")
@@ -149,6 +186,9 @@ func _on_CreateLobby_pressed():
 
 
 func _on_JoinLobby_pressed():
+	state_id_str = join_lobby_state_id.text
+	join_lobby.disabled = true
+	join_lobby.modulate = Color("a49f9f")
 	HathoraConnection.mode = "join_lobby"
 	title.get_node("AnimationPlayer").play("Fade")
 	start_game()

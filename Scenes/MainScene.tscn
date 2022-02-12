@@ -64,6 +64,8 @@ __meta__ = {
 "_edit_horizontal_guides_": [ 0.0, 900.0 ],
 "_edit_vertical_guides_": [ 0.0, 1201.0 ]
 }
+open_in_browser = true
+copy_state_id = true
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource( 1 )
@@ -126,6 +128,7 @@ margin_right = -80.0
 margin_bottom = -61.0
 rect_scale = Vector2( 3, 3 )
 texture_normal = ExtResource( 7 )
+texture_pressed = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
