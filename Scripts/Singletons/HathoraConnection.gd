@@ -23,9 +23,10 @@ func _connected(proto = ""):
 		var x : PoolByteArray = []
 		_client.get_peer(1).put_packet(x)
 	elif (mode == "join_lobby"):
+		print(state_id)
 		_client.get_peer(1).put_packet(state_id.to_utf8())
 		_client.get_peer(1).set_write_mode(WebSocketPeer.WRITE_MODE_BINARY)
-		var pba : PoolByteArray = [00, 12, 55, 23, 254]
+		var pba : PoolByteArray = [00, 12, 55, 23, 254]		
 		send_message_to_server(pba)
 	else:
 		assert(false)

@@ -5,9 +5,36 @@ var big_explosion_counter : int = 0
 var dead : bool = false
 var new_position : Vector2 = Vector2(-30, -30)
 var new_rotation : float = 0.0
+var ship_colour_index : int
 
 export var turn_speed : int = 5
 export var move_speed : int = 180
+
+# Nodes
+onready var sprite : Sprite = get_node("Sprite")
+onready var effect_position : Position2D = get_node("EffectPosition")
+onready var big_explosion_timer : Timer = get_node("BigExplosionTimer")
+onready var animation_player : AnimationPlayer = get_node("YellowGlowCircle/AnimationPlayer")
+
+# Ships
+onready var ship_colours : Array = [
+	preload("res://Assets/Ships/black_ship.png"),
+	preload("res://Assets/Ships/blue_ship.png"),
+	preload("res://Assets/Ships/green_ship.png"),
+	preload("res://Assets/Ships/red_ship.png"),
+	preload("res://Assets/Ships/white_ship.png"),
+	preload("res://Assets/Ships/yellow_ship.png")	
+]
+
+onready var black_ship : Resource = preload("res://Assets/Ships/black_ship.png")
+onready var blue_ship : Resource = preload("res://Assets/Ships/blue_ship.png")
+onready var green_ship : Resource = preload("res://Assets/Ships/green_ship.png")
+onready var red_ship : Resource = preload("res://Assets/Ships/red_ship.png")
+onready var white_ship : Resource = preload("res://Assets/Ships/white_ship.png")
+onready var yellow_ship : Resource = preload("res://Assets/Ships/yellow_ship.png")
+
+# Effects
+onready var explosion : Resource = preload("res://Scenes/Explosion.tscn")
 
 # Server Data
 var id : String
@@ -36,29 +63,12 @@ func update_ship(data):
 			else:
 				hit_count_set = true 
 				hit_count = data.hitCount
-# Nodes
-onready var sprite : Sprite = get_node("Sprite")
-onready var effect_position : Position2D = get_node("EffectPosition")
-onready var big_explosion_timer : Timer = get_node("BigExplosionTimer")
-onready var animation_player : AnimationPlayer = get_node("YellowGlowCircle/AnimationPlayer")
-
-# Ships
-onready var black_ship : Resource = preload("res://Assets/Ships/black_ship.png")
-onready var blue_ship : Resource = preload("res://Assets/Ships/blue_ship.png")
-onready var green_ship : Resource = preload("res://Assets/Ships/green_ship.png")
-onready var red_ship : Resource = preload("res://Assets/Ships/red_ship.png")
-onready var white_ship : Resource = preload("res://Assets/Ships/white_ship.png")
-onready var yellow_ship : Resource = preload("res://Assets/Ships/yellow_ship.png")
-
-# Effects
-onready var explosion : Resource = preload("res://Scenes/Explosion.tscn")
 
 func _ready():
 	# Logic for setting the ships sprite
-	sprite.texture = black_ship
 	animation_player.play("Circle")
-
-
+	sprite.texture = ship_colours[ship_colour_index]
+	
 func _on_hit():
 	play_explosion_animation()
 	if hit_count < 3:

@@ -91,6 +91,7 @@ height = 50.0
 [node name="Ship" type="KinematicBody2D"]
 position = Vector2( 206, 131 )
 script = ExtResource( 1 )
+move_speed = 200
 
 [node name="Sprite" type="Sprite" parent="."]
 rotation = -1.5708
