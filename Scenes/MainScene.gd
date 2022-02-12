@@ -53,12 +53,8 @@ func process_data_packets(data):
 	# Is this the first json packet I received?	
 	if just_joined:
 		if dict_data.has("ships"):
-			print(dict_data.ships)
-			print(dict_data.ships.size())
 			spawn_own_ship(dict_data.ships, dict_data.ships.size() - 1)
 			if dict_data.ships.size() > 1:
-				print(dict_data.ships.size())
-				print("dict_data.ships.size()test")
 				for i in range(dict_data.ships.size() -1):
 					print(i)
 					spawn_enemy_ships(dict_data.ships[i], i)
