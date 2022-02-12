@@ -72,7 +72,6 @@ __meta__ = {
 "_edit_horizontal_guides_": [ 0.0, 900.0 ],
 "_edit_vertical_guides_": [ 0.0, 1201.0 ]
 }
-open_in_browser = true
 copy_state_id = true
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -86,7 +85,7 @@ tile_data = PoolIntArray( -1, 0, 0, -65536, 0, 0, -65535, 0, 0, -65534, 0, 0, -6
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 script = ExtResource( 4 )
-app_id = "01db5ef91685ebe7245253503368e6886e401e1627d61744c022ca18b9c648a4"
+app_id = "2a7643ea6266be71cc56c79aa8eb5048935c09d9ca243995f486263071c4f1ca"
 
 [node name="StateID" type="Label" parent="."]
 anchor_left = 0.5

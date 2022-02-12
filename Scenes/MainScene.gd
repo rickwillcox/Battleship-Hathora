@@ -114,8 +114,6 @@ func update_ships(ship_data : Array):
 	 
 
 func update_cannonballs(cannonball_data : Array):
-	var server_cannonballs_removed : Array = []
-	var new_server_cannonballs : Array = []
 	# update existing cannonnballs and add new ones
 	for server_cannonball in cannonball_data:
 		var server_cannonball_found = false
@@ -125,9 +123,19 @@ func update_cannonballs(cannonball_data : Array):
 				client_cannonball.found = true
 				server_cannonball_found = true
 				break
-			
+		
 		if !server_cannonball_found:
 			spawn_cannonballs(server_cannonball)
+		
+	for client_cannonball in cannonballs_ysort.get_children():
+		if !client_cannonball.found:
+			client_cannonball.queue_free()
+	
+	for client_cannonball in cannonballs_ysort.get_children():
+		client_cannonball.found = false
+		
+		
+	
 
 func start_game():
 	join_the_server()
@@ -157,6 +165,7 @@ func spawn_enemy_ships(ship_data : Dictionary, index : int):
 
 func spawn_cannonballs(cannonball_data : Dictionary):
 	var cannonball_instance = cannonball.instance()
+	cannonball_instance.found = true
 	cannonball_instance.position.x = cannonball_data.x
 	cannonball_instance.position.y = cannonball_data.y
 	cannonball_instance.new_position = Vector2(cannonball_data.x, cannonball_data.y)
