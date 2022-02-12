@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Resources/btnsmall.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Assets/Background/tiles_sheet.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Assets/UI/Buttons/button_normal.png" type="Texture" id=7]
 [ext_resource path="res://Scenes/JoinLobbyStateID.gd" type="Script" id=8]
 [ext_resource path="res://Assets/Fonts/collegiate/CollegiateBlackFLF.ttf" type="DynamicFontData" id=9]
+[ext_resource path="res://Scenes/CannonballReload.tscn" type="PackedScene" id=10]
 
 [sub_resource type="TileSet" id=1]
 0/name = "tiles_sheet.png 0"
@@ -197,6 +198,14 @@ script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="CannonballReload" parent="." instance=ExtResource( 10 )]
+visible = false
+margin_left = 29.0
+margin_top = 797.0
+margin_right = 317.0
+margin_bottom = 1007.0
+rect_scale = Vector2( 0.4, 0.4 )
 
 [connection signal="animation_finished" from="Gui/Title/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="pressed" from="Gui/CreateLobby" to="." method="_on_CreateLobby_pressed"]

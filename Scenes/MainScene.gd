@@ -10,6 +10,7 @@ var first_packet : bool = true
 var just_joined : bool = true
 var ship_colours : Array = ["black_ship", "blue_ship", "green_ship", "white_ship", "red_ship,", "yellow_ship"]
 var ship_count : int = 0
+var can_attack : bool = false
 
 # Nodes
 onready var gui : CanvasLayer = get_node("Gui")
@@ -63,6 +64,7 @@ func process_data_packets(data):
 				for i in range(dict_data.cannonBalls.size()):
 					spawn_cannonballs(dict_data.cannonBalls[i])
 		just_joined = false
+		can_attack = true
 		return
 	
 	# What happens once game is running	
@@ -101,6 +103,8 @@ func send_movement_orders():
 	if Input.is_action_pressed("Fire"):
 		pba = PoolByteArray ([02, rand1+1, rand2+1, rand3+1, rand4+1])
 		HathoraConnection.send_message_to_server(pba)
+		if $CannonballReload.can_play_reload:
+			$CannonballReload.value = 0
 	
 func update_ships(ship_data : Array):
 	for server_ship in ship_data:
@@ -139,6 +143,7 @@ func update_cannonballs(cannonball_data : Array):
 
 func start_game():
 	join_the_server()
+	$CannonballReload.visible = true
 
 func join_the_server():
 	HathoraConnection.connect_to_websocket()
@@ -194,3 +199,4 @@ func _on_JoinLobby_pressed():
 
 func _on_JoinLobbyStateID_text_changed():
 	HathoraConnection.state_id = join_lobby_state_id.text
+

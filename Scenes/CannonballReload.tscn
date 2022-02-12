@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Cannonballs/cb2.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Cannonballs/png-transparent-cannon-computer-icons-artillery-cannon-angle-text-logo-thumbnail.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/CannonballReload.gd" type="Script" id=3]
+
+[node name="CannonballReload" type="TextureProgress"]
+max_value = 15.0
+value = 15.0
+texture_under = ExtResource( 1 )
+texture_progress = ExtResource( 2 )
+fill_mode = 3
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
