@@ -1,4 +1,4 @@
-# Battleships - Hathora - Godot
+# Battle Ships - Hathora - Godot
 
 This repo is a demonsrtation making a multiplayer game in Godot using the [Hathora Framework - Repo Here](https://github.com/hathora/hathora)
 
