@@ -3,21 +3,25 @@ extends Node2D
 var reload_timer : float = 5.0
 var big_explosion_counter : int = 0
 var dead : bool = false
+var new_position : Vector2 = Vector2(0,0)
+var new_rotation : float = 0.0
 
 # Server Data
 var id : String
 var hit_count : int
 
+func _physics_process(delta):
+	position = position.move_toward(new_position, delta * 100)
+	rotation = lerp_angle(rotation, new_rotation, delta * 5.0)
+	
 func update_ship(data):
 	if data.has("x"):
-		position.x = data.x
+		new_position.x = data.x
 	if data.has("y"):
-		position.y = data.y
+		new_position.y = data.y
 	if data.has("angle"):
-		rotation = data.angle
+		new_rotation = data.angle
 	if data.has("hitCount"):
-		position.x = data.x
-	if data.has("x"):
 		var tmp_hc = hit_count
 		hit_count = data.hitCount
 		if tmp_hc < hit_count:
