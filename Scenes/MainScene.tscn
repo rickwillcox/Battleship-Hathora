@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Resources/btnsmall.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Assets/Background/tiles_sheet.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Assets/UI/Buttons/button_pressed.png" type="Texture" id=6]
 [ext_resource path="res://Assets/UI/Buttons/button_normal.png" type="Texture" id=7]
 [ext_resource path="res://Scenes/JoinLobbyStateID.gd" type="Script" id=8]
+[ext_resource path="res://Assets/Fonts/collegiate/CollegiateBlackFLF.ttf" type="DynamicFontData" id=9]
 
 [sub_resource type="TileSet" id=1]
 0/name = "tiles_sheet.png 0"
@@ -24,6 +25,13 @@
 0/shape_one_way_margin = 0.0
 0/shapes = [  ]
 0/z_index = 0
+
+[sub_resource type="DynamicFont" id=6]
+size = 30
+outline_size = 2
+outline_color = Color( 0.262745, 0.286275, 0.439216, 1 )
+use_filter = true
+font_data = ExtResource( 9 )
 
 [sub_resource type="Animation" id=3]
 resource_name = "Fade"
@@ -86,11 +94,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 729.0
-margin_top = 17.0
-margin_right = 955.0
-margin_bottom = 56.0
-custom_fonts/font = ExtResource( 1 )
+margin_left = 813.0
+margin_top = 15.0
+margin_right = 1039.0
+margin_bottom = 60.0
+custom_fonts/font = SubResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

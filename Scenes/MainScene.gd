@@ -36,16 +36,18 @@ func _physics_process(delta):
 
 func process_data_packets(data):
 	# is this the first packet (state ID)
-	if HathoraConnection.mode == "create_lobby" and first_packet:
-		state_id.text = data
-		if open_in_browser:
-			OS.shell_open("https://ship-battle-json.surge.sh/" + state_id.text)
-		if copy_state_id:
-			OS.set_clipboard(data)
-		first_packet = false
-		return
-	else:
-		state_id.text = state_id_str
+	if first_packet:
+		if HathoraConnection.mode == "create_lobby":
+			print(data)
+			state_id.text = data
+			if open_in_browser:
+				OS.shell_open("https://ship-battle-json.surge.sh/" + state_id.text)
+			if copy_state_id:
+				OS.set_clipboard(data)
+			first_packet = false
+			return
+		else:
+			state_id.text = state_id_str
 	
 	var dict_data : Dictionary = parse_json(data)
 		
