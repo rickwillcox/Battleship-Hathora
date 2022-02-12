@@ -17,9 +17,17 @@ run/main_scene="res://Scenes/MainScene.tscn"
 
 HathoraConnection="*res://Scripts/Singletons/HathoraConnection.gd"
 
+[display]
+
+window/size/width=1200
+window/size/height=1200
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
+
 [global]
 
 phys=false
+window=false
 
 [input]
 

@@ -1,11 +1,13 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
-[ext_resource path="res://Assets/Fonts/collegiate/CollegiateBlackFLF.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Resources/btnsmall.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Assets/Background/tiles_sheet.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/MainScene.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/HTTPRequest.gd" type="Script" id=4]
 [ext_resource path="res://Resources/titlefont.tres" type="DynamicFont" id=5]
-[ext_resource path="res://Assets/UI/Buttons/CGB02-blue_M_btn.png" type="Texture" id=6]
+[ext_resource path="res://Assets/UI/Buttons/button_pressed.png" type="Texture" id=6]
+[ext_resource path="res://Assets/UI/Buttons/button_normal.png" type="Texture" id=7]
+[ext_resource path="res://Scenes/JoinLobbyStateID.gd" type="Script" id=8]
 
 [sub_resource type="TileSet" id=1]
 0/name = "tiles_sheet.png 0"
@@ -56,13 +58,6 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=5]
 resource_name = "Scale"
 
-[sub_resource type="DynamicFont" id=6]
-size = 28
-outline_size = 2
-outline_color = Color( 0.027451, 0.14902, 0.933333, 1 )
-use_filter = true
-font_data = ExtResource( 1 )
-
 [node name="MainScene" type="Node2D"]
 script = ExtResource( 3 )
 
@@ -77,8 +72,22 @@ tile_data = PoolIntArray( -1, 0, 0, -65536, 0, 0, -65535, 0, 0, -65534, 0, 0, -6
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 script = ExtResource( 4 )
-state_id = "1kw2l6lf8vhzb"
+state_id = "zx6wasdqm4rw"
 app_id = "2a7643ea6266be71cc56c79aa8eb5048935c09d9ca243995f486263071c4f1ca"
+
+[node name="StateID" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 729.0
+margin_top = 17.0
+margin_right = 955.0
+margin_bottom = 56.0
+custom_fonts/font = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Gui" type="CanvasLayer" parent="."]
 
@@ -87,10 +96,10 @@ anchor_left = 0.495
 anchor_top = 0.491
 anchor_right = 0.495
 anchor_bottom = 0.491
-margin_left = -431.88
-margin_top = -245.6
-margin_right = 447.12
-margin_bottom = -110.6
+margin_left = -428.88
+margin_top = -211.6
+margin_right = 450.12
+margin_bottom = -76.6
 custom_fonts/font = ExtResource( 5 )
 text = "Battle Ships"
 __meta__ = {
@@ -103,60 +112,67 @@ anims/RESET = SubResource( 4 )
 anims/Scale = SubResource( 5 )
 
 [node name="CreateLobby" type="TextureButton" parent="Gui"]
-margin_left = 368.0
-margin_top = 191.0
-margin_right = 624.0
-margin_bottom = 331.0
-texture_normal = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CreateLobbyText" type="Label" parent="Gui/CreateLobby"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -100.0
-margin_top = -15.0
-margin_right = 100.0
-margin_bottom = 15.0
-custom_fonts/font = SubResource( 6 )
-text = "Create Lobby"
+margin_left = 383.0
+margin_top = 247.0
+margin_right = 511.0
+margin_bottom = 280.0
+rect_scale = Vector2( 2, 2 )
+texture_normal = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="JoinLobby" type="TextureButton" parent="Gui"]
-margin_left = 370.0
-margin_top = 347.0
-margin_right = 626.0
-margin_bottom = 487.0
-texture_normal = ExtResource( 6 )
+margin_left = 383.0
+margin_top = 341.0
+margin_right = 511.0
+margin_bottom = 374.0
+rect_scale = Vector2( 2, 2 )
+texture_normal = ExtResource( 7 )
+texture_pressed = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="JoinLobbyText" type="Label" parent="Gui/JoinLobby"]
+[node name="CreateLobbyText" type="Label" parent="Gui"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -83.5
-margin_top = -15.0
-margin_right = 83.5
-margin_bottom = 15.0
-custom_fonts/font = SubResource( 6 )
+margin_left = -100.0
+margin_top = -37.0
+margin_right = 100.0
+margin_bottom = -7.0
+custom_fonts/font = ExtResource( 1 )
+text = "Create Lobby"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="JoinLobbyText" type="Label" parent="Gui"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -85.0
+margin_top = 56.0
+margin_right = 82.0
+margin_bottom = 86.0
+custom_fonts/font = ExtResource( 1 )
 text = "Join Lobby"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="JoinLobbyStateID" type="TextEdit" parent="Gui/JoinLobby"]
-margin_left = 27.0
-margin_top = 153.0
-margin_right = 224.0
-margin_bottom = 193.0
+[node name="JoinLobbyStateID" type="LineEdit" parent="Gui"]
+margin_left = 387.0
+margin_top = 433.0
+margin_right = 634.0
+margin_bottom = 486.0
+custom_fonts/font = ExtResource( 1 )
+text = "State ID"
+align = 1
+script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -164,4 +180,4 @@ __meta__ = {
 [connection signal="animation_finished" from="Gui/Title/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="pressed" from="Gui/CreateLobby" to="." method="_on_CreateLobby_pressed"]
 [connection signal="pressed" from="Gui/JoinLobby" to="." method="_on_JoinLobby_pressed"]
-[connection signal="text_changed" from="Gui/JoinLobby/JoinLobbyStateID" to="." method="_on_JoinLobbyStateID_text_changed"]
+[connection signal="focus_entered" from="Gui/JoinLobbyStateID" to="Gui/JoinLobbyStateID" method="_on_JoinLobbyStateID_focus_entered"]

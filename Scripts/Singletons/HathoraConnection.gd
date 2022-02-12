@@ -4,6 +4,7 @@ var token_results : String
 var state_id : String
 var app_id : String
 var mode : String
+var first_packet : bool = true
 
 var _client = WebSocketClient.new()
 
@@ -29,13 +30,17 @@ func _connected(proto = ""):
 	else:
 		assert(false)
 	_client.get_peer(1).set_write_mode(WebSocketPeer.WRITE_MODE_BINARY)
-	# Join the game
+	if first_packet:
+		first_packet = false
+#		yield(get_tree().create_timer(0.3), "timeout")
+		get_parent().get_node("MainScene").set_physics_process(true)
 	
 	
 	
 func _on_data():
 	get_parent().get_node("MainScene").process_data_packets(_client.get_peer(1).get_packet().get_string_from_utf8())
 
+		
 
 func _process(delta):
 	_client.poll()

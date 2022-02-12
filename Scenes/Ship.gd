@@ -12,7 +12,7 @@ func update_ship(data):
 	if data.has("x"):
 		position.x = data.x
 	if data.has("y"):
-		position.x = data.y
+		position.y = data.y
 	if data.has("angle"):
 		rotation = data.angle
 	if data.has("hitCount"):
@@ -22,6 +22,7 @@ func update_ship(data):
 		hit_count = data.hitCount
 		if tmp_hc < hit_count:
 			_on_hit()
+
 
 var d : Dictionary = {
 	"ships":

@@ -3,8 +3,8 @@
 [ext_resource path="res://Assets/Fonts/collegiate/CollegiateBlackFLF.ttf" type="DynamicFontData" id=1]
 
 [resource]
-size = 130
-outline_size = 4
+size = 28
+outline_size = 2
 outline_color = Color( 0.262745, 0.286275, 0.439216, 1 )
 use_filter = true
 font_data = ExtResource( 1 )
